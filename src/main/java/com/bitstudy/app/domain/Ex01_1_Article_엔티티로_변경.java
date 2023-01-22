@@ -10,9 +10,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
 import java.util.Objects;
-import java.util.Set;
 
 /** 할 일: Lombok 사용하기
 * 주의: maven 때랑 같은 방식인 것들도 이름이 다르게 되어 있으니 헷갈리지 않게 주의!
@@ -31,20 +29,19 @@ import java.util.Set;
 * *  */
 
 @Table(indexes = {
-        @Index(columnList = "content"), // 검색 속도 빠르게 해주는 작업
         @Index(columnList = "content"),
         @Index(columnList = "createAt"),
         @Index(columnList = "createBy"),
 })
-@Entity /** 1) Lombok 이용하여 클래스를 엔티티로 변경. @Entity가 붙은 클래스는 JPA가 관리하게 된다.
+@Entity /** 1) 롬복 이용하여 클래스를 엔티티로 변경. @Entity가 붙은 클래스는 JPA가 관리하게 된다.
             그래서 기본키(PK)가 뭔지 알려줘야 한다. 그게 @ID 에너테이션이다. */
 @Getter /** 2) getter/setter, toString 등의 롬복 어노테이션 사용 */ // 롬복의 @Getter 를 쓰면 알아서 모든 필드의 getter 들이 생성된다.
-@ToString // 위와 같이 모든 필드의 toString 생성
-public class Article {
+@ToString
+public class Ex01_1_Article_엔티티로_변경 {
 
-    @Id // '전체 필드 중에서 이게 PK다' 라고 말해주는 거. @Id가 없으면 @Entity 어노테이션 에러난다.
+    @Id // '전체 필드 중에서 이게 PK다' 라고 말해주는 거. @Id가 없으면 @Entity 에러난다.
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 해당 필드가 auto_increment인 경우 @GeneratedValue를 써서 자동으로 값이 생성되게 해줘야 한다. 기본키 전략
-    private Long id; // 게시글 고유 아이디
+    private Long id;
 
     /** @Setter도 @Getter처럼 클래스 단위로 걸 수 있는데, 그렇게 하면 모든 필드에 접근이 가능해진다.
       그런데 id 같은 경우에는 내가 부여하는 게 아니라 JPA에서 자동으로 부여해주는 번호이다. 메타데이터들도 자동으로 JPA가
@@ -60,20 +57,7 @@ public class Article {
     @Setter @Column(nullable = false, length = 10000) private String content; // 본문
     @Setter private String hashtag; // 해시태그
 
-    /* 양방향 바인딩 */
-    @OrderBy("id") // 양방향 바인딩을 할 건데 정렬 기준을 id로 하겠다는 뜻
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-    @ToString.Exclude /** 이거 중요. 맨 위에 @ToString이 있는데 마우스 올려보면 @ToString includes~ lazy load 어쩌고' 라고 나온다.
-     이건 퍼포먼스, 메모리 저하를 일으킬 수 있어서 성능적으로 안 좋은 주므로 해당 필드를 가려달라고 하는 것임. */
-    private final Set<ArticleComment> articleComments = new LinkedHashSet<>();
-    /*
-    *
-    *
-    *  */
-
-
-
-    /** JPA auditing: jpa에서 자동으로 세팅하게 해줄 때 사용하는 기능
+    /** jpa auditing: jpa에서 자동으로 세팅하게 해줄 때 사용하는 기능
      *              이거 하려면 config 파일이 별도로 있어야 한다.
      *              config 패키지 만들어서 JpaConfig 클래스 만들자.
      */
@@ -107,17 +91,17 @@ public class Article {
     /** Entity를 만들 때는 무조건 기본 생성자가 필요하다.
      *  public 또는 protected만 가능한데, 평생 아무데서도 기본생성자를 안 쓰이게 하고 싶어서 protected로 변경함
      * */
-    protected Article() {}
+    protected Ex01_1_Article_엔티티로_변경() {}
 
     /** 사용자가 입력하는 값만 받기. 나머지는 시스템이 알아서 하게 해주면 됨. **/
-    private Article(String title, String content, String hashtag) {
+    private Ex01_1_Article_엔티티로_변경(String title, String content, String hashtag) {
         this.title = title;
         this.content = content;
         this.hashtag = hashtag;
     }
 
-    public static Article of(String title, String content, String hashtag) {
-        return new Article(title, content, hashtag);
+    public static Ex01_1_Article_엔티티로_변경 of(String title, String content, String hashtag) {
+        return new Ex01_1_Article_엔티티로_변경(title, content, hashtag);
     }
     /* 정적 팩토리 메서도 (factory method pattern 중에 하나)
     * 정적 팩토리 메서드란 객체 생성 역할을 하는 클래스 메서드라는 뜻.
@@ -152,7 +136,7 @@ public class Article {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Article article = (Article) o;
+        Ex01_1_Article_엔티티로_변경 article = (Ex01_1_Article_엔티티로_변경) o;
         return id.equals(article.id);
 //        return (article.id).equals(id);
 //        return id != null && id.equals(article.id);
@@ -181,5 +165,5 @@ public class Article {
      * default: 동일한 패키지 내에서만 접근
      * private: 자기 자신의 클래스 내에서만 접근 가능
      * */
-
+    
 }
