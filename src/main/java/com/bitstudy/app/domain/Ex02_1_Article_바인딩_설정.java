@@ -44,7 +44,7 @@ name 부분을 생략하면 원래 이름 사용.
 @Getter // 모든 필드의 getter 들이 생성
 @ToString // 모든 필드의 toString 생성
 public class Ex02_1_Article_바인딩_설정 {
-
+ 
     @Id // 전체 필드중에서 PK 표시 해주는 것 @Id 가 없으면 @Entity 어노테이션을 사용 못함
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 해당 필드가 auto_increment 인 경우 @GeneratedValue 를 써서 자동으로 값이 생성되게 해줘야 한다. (기본키 전략)
     private long id; // 게시글 고유 아이디
