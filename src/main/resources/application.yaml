@@ -46,5 +46,5 @@ spring:
       # detection-strategy : 프로젝트의 레포지토리를 확인할건데, 이 레포지토리를 rest api 로 노출시킬건지 결정하는 부분
       #  DEFAULT - 모든 public 레포지토리 인터페이스를 표시할건데, 그러나 @(Repository)RestResource 가 포함된것만 노출
       #  ALL - 모든 레포지토리
-      #  ANNOTATED - 지정한 것만 노출
+      #  ANNOTATED - 지정한 것만 노출 
       #  VISIBILITY - 레포포지토리를 public 으로 노출한것만
