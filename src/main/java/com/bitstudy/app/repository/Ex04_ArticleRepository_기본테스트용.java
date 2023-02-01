@@ -3,8 +3,6 @@ package com.bitstudy.app.repository;
 import com.bitstudy.app.domain.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
-
 /** TDD를 위해서 임시로 만들어놓은 저장소 (이거로 DB에 접근할거다)
  *
  * - TDD 만드는 방법
